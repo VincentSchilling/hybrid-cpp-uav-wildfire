@@ -1,0 +1,38 @@
+V1:
+Metrik                        Mittelwert     Std-Abw.
+-------------------------------------------------------
+Routenlänge (m)                 99699.25     34145.52
+Turns                             532.42       294.26
+U-Turns                            23.66        15.03
+E_gesamt (J)                   2285136.8     778757.8
+Scanned Forest Rate               57.21%       20.95%
+Rechenzeit (s)                   247.621      226.292
+Overlap (gesamt)                  26.60%        4.30%
+Overlap (Wald)                    63.68%       18.60%
+Temperatur Ø (°C)                  40.33         0.39
+
+V2:
+Metrik                        Mittelwert     Std-Abw.
+-------------------------------------------------------
+Routenlänge (m)                 99588.85     34063.47
+Turns                             537.48       283.73
+U-Turns                            24.90        14.33
+E_gesamt (J)                   2283747.4     777131.9
+Scanned Forest Rate               57.58%       20.89%
+Rechenzeit (s)                   539.873      368.327
+Overlap (gesamt)                  26.77%        4.36%
+Overlap (Wald)                    64.76%       18.28%
+Temperatur Ø (°C)                  37.99         0.47
+
+V3:
+Metrik                        Mittelwert     Std-Abw.
+-------------------------------------------------------
+Routenlänge (m)                130324.64     33575.64
+Turns                             417.92       422.01
+U-Turns                             8.62         6.08
+E_gesamt (J)                   2937521.2     784861.0
+Scanned Forest Rate               40.65%       20.19%
+Rechenzeit (s)                    81.685       12.036
+Overlap (gesamt)                  24.70%        8.48%
+Overlap (Wald)                    36.55%       19.97%
+Temperatur Ø (°C)                  36.24         0.62
