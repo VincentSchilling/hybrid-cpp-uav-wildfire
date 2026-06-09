@@ -1,0 +1,8 @@
+# Kernabhängigkeiten
+numpy
+pygame
+rasterio
+pyproj
+
+# Remote-Steuerung (nur für run_remote.py benötigt)
+paramiko
