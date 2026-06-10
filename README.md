@@ -142,6 +142,61 @@ Verwendete Geodaten:
 
 ---
 
+## Ausblick: Konzeptionelle Hardwarekonfiguration für den Realbetrieb
+
+> **Hinweis:** Die Routenplanung wurde ausschließlich in der Simulation sowie hinsichtlich der Laufzeit auf einem Raspberry Pi 2B evaluiert. Der folgende Abschnitt skizziert eine mögliche Konfiguration für den realen UAV-Betrieb auf Basis von Open-Source-Komponenten. Es handelt sich um eine konzeptionelle Einordnung — keine im Rahmen dieser Arbeit realisierte oder getestete Hardware.
+
+### Flugsteuerung und Firmware
+
+| Komponente | Beschreibung | Link |
+|---|---|---|
+| **Pixhawk** | Open-Source-Hardwarestandard für Flight Controller | [pixhawk.org](https://pixhawk.org/) |
+| **Cube Orange** | Professionelles Pixhawk-kompatibles Board mit dreifach redundanten IMUs und Schwingungsentkopplung | [cubepilot.com](https://www.cubepilot.com/#/cube/features) |
+| **ArduPilot** | Quelloffene Firmware; unterstützt vollständige Wegpunktmissionen | [ardupilot.org](https://ardupilot.org/) |
+| **PX4** | Alternative quelloffene Firmware | [px4.io](https://px4.io/) |
+| **MAVLink** | Kommunikationsprotokoll zwischen Flight Controller und Rechenmodul | [mavlink.io](https://mavlink.io/en/) |
+
+Die Firmware unterstützt vollständige Wegpunktmissionen einschließlich automatischer Höhenanpassung. Die in dieser Arbeit erzeugten Routen können direkt als Missionsdateien über [Mission Planner](https://ardupilot.org/planner/) oder [QGroundControl](http://qgroundcontrol.com/) übertragen werden.
+
+### Rechenmodul
+
+Die Pfadplanung wird auf einem separaten Rechenmodul ausgeführt und übergibt die Wegpunkte über MAVLink an die Flugsteuerung. Die Laufzeitanalyse dieser Arbeit auf dem Raspberry Pi 2B belegt die Eignung eines kompakten Einplatinenrechners für diese Aufgabe. Die Anbindung erfolgt typischerweise über eine serielle Verbindung zwischen dem `TELEM2`-Port der Flugsteuerung und der seriellen Schnittstelle des Rechenmoduls.
+
+| Komponente | Link |
+|---|---|
+| **Raspberry Pi 2B** (evaluierte Plattform) | [raspberrypi.com](https://www.raspberrypi.com/) |
+| **Companion Computer Setup (ArduPilot)** | [ardupilot.org/dev/docs/companion-computers](https://ardupilot.org/dev/docs/companion-computers.html) |
+
+### Sensorik
+
+| Komponente | Beschreibung | Link |
+|---|---|---|
+| **FLIR Boson** | Kompakte Wärmebildkamera, bis zu 640 × 512 Pixel, für Detektion von Glutnestern und Brandherden | [teledyneflir.com](https://www.teledyneflir.com/products/thermal-camera-cores/boson/) |
+| **RTK-GNSS** | Zentimetergenaue Positionierung für präzise Geolokalisierung | [ardupilot.org/copter/docs/common-gps-blending](https://ardupilot.org/copter/docs/common-gps-blending.html) |
+
+### Kommunikation
+
+Für Telemetrie- und Missionsdaten zwischen UAV und Bodenstation kommen MAVLink-basierte Funkmodule zum Einsatz. Für größere Reichweiten (BVLOS-Betrieb) kann alternativ eine Mobilfunkverbindung genutzt werden.
+
+| Komponente | Link |
+|---|---|
+| **SiK Telemetry Radio** | [ardupilot.org/copter/docs/common-sik-telemetry-radio](https://ardupilot.org/copter/docs/common-sik-telemetry-radio.html) |
+
+### Einbindung der entwickelten Software
+
+```
+Rechenmodul (Raspberry Pi)          Flight Controller (Cube Orange / Pixhawk)
+┌─────────────────────────┐         ┌──────────────────────────────┐
+│  run_path_find.py       │         │  ArduPilot / PX4             │
+│  → Greedy + Dijkstra    │──MAVLink─▶  Wegpunktmission            │
+│  → Routenausgabe (JSON) │  serial  │  Flugregelung / IMU          │
+└─────────────────────────┘         └──────────────────────────────┘
+```
+
+Die entwickelte Software fügt sich über das MAVLink-Protokoll als Planungsebene in dieses System ein. Integration, Erprobung und Zertifizierung eines solchen Systems übersteigen den Rahmen dieser Arbeit.
+
+---
+
 ## Lizenz
 
 © 2025 Vincent Schilling, Technische Universität Berlin
